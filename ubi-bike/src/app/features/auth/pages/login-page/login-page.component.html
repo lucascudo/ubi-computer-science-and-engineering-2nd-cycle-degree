@@ -1,0 +1,21 @@
+<div class="background">
+  <div class="login-container">
+    <div class="text-container">
+      <h1>Hey Stranger</h1>
+      <p>
+        Want to create an awesome account to access this awesome app? Go ahead
+        and click the button below!
+      </p>
+      <button mat-button routerLink="/register">register</button>
+    </div>
+    <div class="form-container">
+      <h1>Welcome to UBI-Bike</h1>
+      <button mat-raised-button (click)="loginWithGoogle()">
+        Sign In with Google
+      </button>
+      <h5>Or sign in with your email</h5>
+      <app-login-form [disabled]="isDisabled" buttonText="login" (formData)="login($event)"></app-login-form>
+      <p>or <a routerLink="/register">register</a></p>
+    </div>
+  </div>
+</div>

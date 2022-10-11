@@ -1,0 +1,28 @@
+:host ::ng-deep {
+  .mobile-user-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+  }
+
+  .mobile-user-list-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+
+      .mobile-user-list-detail {
+          flex: 1 1 0;
+      }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  :host ::ng-deep .mobile-user-list-item {
+    flex-direction: column;
+    align-items: center;
+
+    .mobile-user-list-detail {
+      text-align: center;
+    }
+  }
+}

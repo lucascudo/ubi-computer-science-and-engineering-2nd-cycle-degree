@@ -1,0 +1,21 @@
+<p-panel header="Entrar">
+  <form [formGroup]="form">
+    <div class="form-field">
+      <span class="p-float-label">
+        <input pInputText id="email" name="email" formControlName="email">
+        <label for="email">Utilizador</label>
+      </span>
+    </div>
+    <br>
+    <div class="form-field">
+      <span class="p-float-label">
+        <input pPassword id ="password" name="password" formControlName="password"type="password">
+        <label for="password">Password</label>
+      </span>
+    </div>
+    <br>
+    <div class="form-buttons">
+      <button pButton class="button button-primary"(click)="login()">Entrar</button> ou <a [routerLink]="'/register'">cadastrar</a>
+    </div>
+  </form>
+</p-panel>

@@ -1,0 +1,21 @@
+<p-panel header="Cadastro">
+  <form [formGroup]="form">
+    <div class="p-field">
+      <span class="p-float-label">
+        <input pInputText id="email" name="email" formControlName="email">
+        <label for="email">Utilizador</label>
+      </span>
+    </div>
+    <br>
+    <div class="p-field">
+      <span class="p-float-label">
+        <input pPassword id ="password" name="password" formControlName="password"type="password">
+        <label for="password">Password</label>
+      </span>
+    </div>
+    <br>
+    <div class="p-buttons">
+      <button pButton class="button button-primary" (click)="register()">Cadastrar</button> ou <a [routerLink]="'/login'">entrar</a>
+    </div>
+  </form>
+</p-panel>

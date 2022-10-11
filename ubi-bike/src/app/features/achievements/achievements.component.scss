@@ -1,0 +1,46 @@
+:host ::ng-deep {
+  .achievement-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+  }
+
+  .achievement-list-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+
+      .achievement-list-detail {
+          flex: 1 1 0;
+      }
+
+      .achievement-list-action {
+          display: flex;
+          flex-direction: column;
+      }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  :host ::ng-deep .achievement-list-item {
+    flex-direction: column;
+    align-items: center;
+
+    .achievement-list-detail {
+      text-align: center;
+    }
+
+    .achievement-list-action {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .achievement-list-action {
+      margin-top: 2rem;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+  }
+}

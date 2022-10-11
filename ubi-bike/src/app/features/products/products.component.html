@@ -1,0 +1,31 @@
+<app-base>
+  <p-dataView [value]="products" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+        <app-edit-product
+          [name]="editingProduct.name"
+          [quantity]="editingProduct.quantity"
+          [stores]="editingProduct.stores.join(', ')">
+        </app-edit-product>
+    </ng-template>
+
+    <ng-template let-product pTemplate="listItem">
+      <div class="col-12">
+        <div class="product-list-item">
+            <div class="product-list-detail">
+              <div class="product-name">Name: {{product.name}}</div>
+              <span class="product-quantity">Quantity: {{ product.quantity }}</span>
+              <div class="product-stores">Stores: {{ getStores(product) }}</div>
+            </div>
+            <div class="product-list-action">
+              <button mat-icon-button aria-label="edit" (click)="setEditingProduct(product)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="delete" (click)="deleteProduct(product.name)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</app-base>

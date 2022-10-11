@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ubi-bike-7866d"
+  },
+  "targets": {
+    "ubi-bike-7866d": {
+      "hosting": {
+        "ubi-bike": [
+          "ubi-bike-7866d"
+        ]
+      }
+    }
+  }
+}

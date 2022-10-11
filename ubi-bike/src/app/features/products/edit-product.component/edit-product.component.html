@@ -1,0 +1,25 @@
+<div class="edit-product flex-container">
+  <div class="edit-product-name flex-child">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="name" pInputText>
+      <label for="float-input">Name</label>
+    </span>
+  </div>
+  <div class="edit-product-quantity flex-child">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="quantity" pInputText>
+      <label for="float-input">Quantity</label>
+    </span>
+  </div>
+  <div class="edit-product-stores flex-child">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="stores" pInputText>
+      <label for="float-input">Stores</label>
+    </span>
+  </div>
+  <div class="edit-product-actions flex-child">
+    <button mat-icon-button aria-label="save" alt="save" (click)="save()">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</div>

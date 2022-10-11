@@ -1,0 +1,25 @@
+<div class="edit-achievement flex-container">
+  <div class="edit-achievement-name flex-child">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="name" pInputText>
+      <label for="float-input">Name</label>
+    </span>
+  </div>
+  <div class="edit-achievement-description flex-child">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="description" pInputText>
+      <label for="float-input">Description</label>
+    </span>
+  </div>
+  <div class="edit-achievement-stores flex-child">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="stores" pInputText>
+      <label for="float-input">Stores</label>
+    </span>
+  </div>
+  <div class="edit-achievement-actions flex-child">
+    <button mat-icon-button aria-label="save" alt="save" (click)="save()">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</div>

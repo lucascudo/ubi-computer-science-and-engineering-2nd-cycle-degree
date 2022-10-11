@@ -1,0 +1,36 @@
+=====================
+Requisitos Funcionais
+=====================
+
+RF 1  - O sistema deverá possuir uma página de registo para novos utilizadores.
+RF 2  - A palavra-passe deverá ser cifrada antes de ser guardada na base de dados.
+RF 3  - O sistema deverá possuir uma página de início de sessão para os utilizadores já registados.
+RF 4  - Para iniciar sessão, os utilizadores deverão utilizar o usernmame e palavra-passe que indicaram no registo.
+RF 5  - Caso o utilizador não possua credenciais válidas, não deverá poder aceder à aplicação.
+RF 6  - O sistema deverá implementar o modelo Cliente-Servidor.
+RF 7  - O sistema deverá emitir os prémios automaticamente.
+RF 8  - As raspadinhas podem conter ou não prémio.
+RF 9  - As raspadinhas devem ser gratuitas.
+RF 10  - As raspadinhas devem ser emitidas a cada utilizador de hora a hora.
+RF 11 - O utilizador deverá estar ligado para poder receber a raspadinha.
+RF 12 - Caso o utilizador ganhe, deverá receber 1, caso perca, recebe nada (0).
+RF 13 - Todas as comunicações devem ser corretas e confidenciais.
+RF 14 - O sistema deve utilizar oblivious transfer.
+RF 15 - O sistema deve utilizar técnicas de criptografia de chave simétrica e pública.
+RF 16 - O sistema deve utilizar encriptação do tipo x25519-xsalsa20-poly1305 para as comunicações.
+RF 17 - Caso o utilizador não tenha iniciado sessão, não deverá poder receber raspadinhas.
+
+=========================
+Requisitos Não Funcionais
+=========================
+
+RNF 1  - Para aceder à aplicação, é necessário ter acesso à Internet.
+RNF 2  - As palavras-passe devem ser guardadas de forma segura, sendo estas cifradas.
+RNF 3  - O sistema deve garantir a privacidade do utilizador.
+RNF 4  - A aplicação deverá ser intuitiva, não sendo necessário treino prévio para a sua utilização.
+RNF 5  - O design da aplicação deverá ser responsivo.
+RNF 6  - A única ferramenta necessária para aceder à aplicação deverá ser um qualquer browser.
+RNF 7  - A aplicação deverá ter o mínimo de downtime possível.
+RNF 8  - A aplicação deverá enviar uma resposta ao cliente num tempo mínimo, quando não instantâneo.
+RNF 9  - Os servidores deverão possuir instalado Hypertext Transfer Protocol Secure (HTTPS).
+RNF 10 - Não deverá ser possível visualizar retirar qualquer informação valiosa através da análise da comunicação cliente-servidor.

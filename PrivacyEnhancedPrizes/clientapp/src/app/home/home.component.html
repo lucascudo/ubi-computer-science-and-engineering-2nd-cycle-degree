@@ -1,0 +1,19 @@
+<p-panel header="Utilizador: {{ username }}">
+  <div [hidden]="!loading">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Raspando...</p>
+  </div>
+
+  <div [hidden]="loading">
+    <p>Número: {{ card?._id }}</p>
+    <p>Emissão: {{ card?.scratched | date:"short" }}</p>
+    <p-message
+      severity="{{ card?.winner ? 'success' : 'info' }}"
+      text="{{ card?.winner ? 'SORTE GRANDE!!!' : 'Ainda não foi dessa vez...' }}">
+    </p-message>
+  </div>
+
+  <p>
+    <a href="#" (click)="logout()">Sair</a>
+  </p>
+</p-panel>

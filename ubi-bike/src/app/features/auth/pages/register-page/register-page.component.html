@@ -1,0 +1,18 @@
+<div class="background">
+  <div class="login-container">
+    <div class="form-container">
+      <h1>Welcome to UBI-Bike</h1>
+      <h5>Register with your email</h5>
+      <app-login-form (formData)="register($event)" buttonText="register" [disabled]="isDisabled"></app-login-form>
+      <p>or <a routerLink="/login">login</a></p>
+    </div>
+    <div class="text-container">
+      <h1>Hey Buddy</h1>
+      <p>
+        Already have an awesome account? Go ahead and click the button below to
+        sign in!
+      </p>
+      <button mat-button routerLink="/">login</button>
+    </div>
+  </div>
+</div>

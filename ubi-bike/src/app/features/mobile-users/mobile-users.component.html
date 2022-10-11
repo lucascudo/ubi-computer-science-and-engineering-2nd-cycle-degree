@@ -1,0 +1,18 @@
+<app-base>
+  <p-dataView [value]="mobileUsers" [paginator]="true" [rows]="10">
+    <ng-template let-mobileUser pTemplate="listItem">
+      <div class="col-12">
+        <div class="mobile-user-list-item">
+            <div class="mobile-user-list-detail">
+              <div class="mobile-user-name">Name: {{mobileUser.name}}</div>
+              <span class="mobile-user-email">Email: {{ mobileUser.email }}</span>
+              <div class="mobile-user-bike-id">Bike ID: {{ mobileUser.bikeId }}</div>
+              <div class="mobile-user-birth">Birth date: {{ mobileUser.birth?.toDate() | date }}</div>
+              <div class="mobile-user-distance">Travelled distance: {{ mobileUser.distance }} km</div>
+              <div class="mobile-user-stores">Stores: {{ getStores(mobileUser) }}</div>
+            </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</app-base>

@@ -1,0 +1,31 @@
+<app-base>
+  <p-dataView [value]="achievements" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+        <app-edit-achievement
+          [name]="editingAchievement.name"
+          [description]="editingAchievement.description"
+          [stores]="editingAchievement.stores.join(', ')">
+        </app-edit-achievement>
+    </ng-template>
+
+    <ng-template let-achievement pTemplate="listItem">
+      <div class="col-12">
+        <div class="achievement-list-item">
+            <div class="achievement-list-detail">
+              <div class="achievement-name">Name: {{achievement.name}}</div>
+              <span class="achievement-description">Description: {{ achievement.description }}</span>
+              <div class="achievement-stores">Stores: {{ getStores(achievement) }}</div>
+            </div>
+            <div class="achievement-list-action">
+              <button mat-icon-button aria-label="edit" (click)="setEditingAchievement(achievement)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="delete" (click)="deleteAchievement(achievement.name)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</app-base>

@@ -1,0 +1,50 @@
+@import "src/variables";
+
+.background {
+  align-items: center;
+  background-image: url("/assets/mountains.png");
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+  padding-top: 10%;
+}
+
+h1 {
+  color: $ubi-bike-blue;
+  font-size: 50px;
+  font-weight: bolder;
+}
+
+h2 {
+  color: #698893;
+  margin-bottom: 50px;
+}
+
+a {
+  color: $ubi-bike-blue;
+  border-bottom: 2px solid transparent;
+  transition: 0.5s border-bottom;
+}
+
+.btn {
+  background-color: $ubi-bike-blue;
+  border-radius: 20px;
+  color: #fff;
+  padding: 10px 30px;
+  text-decoration: none;
+  transition: 0.5s background-color;
+}
+
+a:hover {
+  border-bottom: 2px solid #1b51a0;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #1b51a0;
+}
+
+.mat-icon {
+  vertical-align: middle;
+}
