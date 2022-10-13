@@ -6,7 +6,12 @@ describe('ubi-assistant', () => {
       column: 1,
     };
 
-    cy.visit('/units/sq.html')
+    cy.visit('~ngpombo/')
+    cy.get('ul#navigation').children('li').eq(2).contains('Teaching').click()
+    cy.get('ul.ul-dates').eq(2).children('li').eq(1).contains('div.content > h4', 'Qualidade de Software')
+    cy.get('ul.ul-dates').eq(2).children('li').eq(1).children('div.content').children('p').children('a')
+        .should('have.attr', 'href', './units/sq.html').invoke('removeAttr', 'target').click()
+
     cy.get('div#News > ul').contains('li', homeText)
     cy.get('button').eq(2).contains('Lecture Notes').click()
     cy.get('div#LectureNotes > table > tbody > tr').eq(index.row).children('td').eq(index.column).should('be.empty')
