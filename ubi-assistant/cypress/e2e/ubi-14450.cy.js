@@ -6,7 +6,7 @@ describe("ubi-14450", () => {
     column: 1,
   }
 
-  it("goes to the curricular unit homepage", () => {
+  it("navigates to the curricular unit homepage", () => {
     const getCuElement = () => cy.get("ul.ul-dates").eq(CU_ROW).children("li").eq(1)
 
     cy.visit("https://www.di.ubi.pt/~ngpombo/")
@@ -18,7 +18,7 @@ describe("ubi-14450", () => {
         .click()
   })
 
-  it("verifies the news", () => {
+  it("verifies the last news", () => {
     cy.get("div#News > ul").contains("li", NEWS_TEXT).should(elem => {
       expect(elem.text().trim()).to.equal(NEWS_TEXT)
     })
