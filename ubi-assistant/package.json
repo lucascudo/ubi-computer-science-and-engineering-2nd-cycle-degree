@@ -2,9 +2,8 @@
   "name": "ubi-assistant",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "cypress open"
+    "start": "cypress open"
   },
   "author": "lucascudo",
   "license": "ISC",
