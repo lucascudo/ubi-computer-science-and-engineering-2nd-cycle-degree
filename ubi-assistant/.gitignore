@@ -26,5 +26,5 @@ yarn-error.log
 .DS_Store
 Thumbs.db
 
-# dotenv
-.env
+# Environment variables
+cypress.env.json
