@@ -1,11 +1,11 @@
 describe("ubi-14464", () => {
 
-  it("tests ubi-14464", () => {
+  it("verifies the latest latest news and lectures", () => {
     const MOODLE_URL = "https://moodle.ubi.pt/"
     const env = Cypress.env("14464")
 
     cy.log("navigates to UBI`s SAML login page")
-    Cypress.log({ message: "[green]navigates to UBI`s SAML login page" })
+    Cypress.log({ message: "navigates to UBI`s SAML login page" })
     cy.visit(MOODLE_URL + "auth/saml/login.php")
     cy.get("div.loginpanel").children("center").children("a")
         .should("have.attr", "href", "index.php").click()
@@ -21,7 +21,7 @@ describe("ubi-14464", () => {
         .should("have.attr", "title", "PROTOCOLOS DE COMUNICACAO")
         .click()
 
-    cy.log("verifies the last news")
+    cy.log("verifies the latest news")
     cy.get("a.aalink")
         .should("have.attr", "href", MOODLE_URL + "mod/forum/view.php?id=267063")
         .click()

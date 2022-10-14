@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "cypress open"
+    "start": "cypress open",
+    "test": "cypress open"
   },
   "author": "lucascudo",
   "license": "ISC",

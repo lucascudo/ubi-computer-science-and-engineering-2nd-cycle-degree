@@ -13,7 +13,7 @@ describe("ubi-14450", () => {
         .click()
   })
 
-  it("verifies the last news", () => {
+  it("verifies the latest news", () => {
     cy.get("div#News > ul").contains("li", env.NEWS_TEXT).should(elem => {
       expect(elem.text().trim()).to.equal(env.NEWS_TEXT)
     })
