@@ -41,6 +41,7 @@ describe("ubi-" + CLASS_ID, () => {
         .should("have.attr", "href", MOODLE_URL + "mod/resource/view.php?id=" + env.LAST_FILE_ID)
 
   })
+
   it("verifies the latest discussions", () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL + "course/view.php?id=" + env.COURSE_ID)
