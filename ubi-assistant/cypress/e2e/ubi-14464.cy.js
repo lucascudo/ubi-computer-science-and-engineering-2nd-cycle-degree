@@ -34,7 +34,6 @@ describe("ubi-" + CLASS_ID, () => {
   it("verifies the latest lectures", () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL + "course/view.php?id=" + env.COURSE_ID)
-
     cy.get("header#page-header").should("contain.text", env.CLASS_NAME)
     cy.get("a.aalink").eq(-1)
         .should("contain.text", env.LAST_FILE_NAME)
