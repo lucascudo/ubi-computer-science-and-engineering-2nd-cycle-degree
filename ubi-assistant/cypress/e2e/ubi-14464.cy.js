@@ -15,7 +15,7 @@ describe("ubi-" + CLASS_ID, () => {
       cy.get("input#passwordInput").type(Cypress.env("UBI_PASSWORD"))
       cy.get("span#submitButton").click()
       cy.url().should("eq", MOODLE_URL + "my/")
-      cy.get("header#page-header").should("contain", "Bem-vindo(a) novamente,")
+      cy.get("header#page-header").should("contain.text", "Bem-vindo(a) novamente,")
     })
   })
 
@@ -23,20 +23,23 @@ describe("ubi-" + CLASS_ID, () => {
     Cypress.session.clearAllSavedSessions()
   })
 
-  it("navigates to the curricular unit homepage", () => {
+  it("verifies the curricular unit homepage", () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL)
     cy.get(`li.type_course[data-node-id="expandable_branch_20_${env.COURSE_ID}"] > p > a`)
         .contains("14464")
-        .should("have.attr", "title", "PROTOCOLOS DE COMUNICACAO")
+        .should("have.attr", "title", env.CLASS_NAME)
   })
 
   it("verifies the latest lectures", () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL + "course/view.php?id=" + env.COURSE_ID)
+
+    cy.get("header#page-header").should("contain.text", env.CLASS_NAME)
     cy.get("a.aalink").eq(-1)
         .should("contain.text", env.LAST_FILE_NAME)
         .should("have.attr", "href", MOODLE_URL + "mod/resource/view.php?id=" + env.LAST_FILE_ID)
+
   })
   it("verifies the latest discussions", () => {
     cy.session(SESSION_ID)
