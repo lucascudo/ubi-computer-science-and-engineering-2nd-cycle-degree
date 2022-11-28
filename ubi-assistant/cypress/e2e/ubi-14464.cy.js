@@ -31,7 +31,7 @@ describe("ubi-" + CLASS_ID, () => {
         .should("have.attr", "title", env.CLASS_NAME)
   })
 
-  it("verifies the latest lectures", () => {
+  it("verifies latest lectures", () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL + "course/view.php?id=" + env.COURSE_ID)
     cy.get("header#page-header").should("contain.text", env.CLASS_NAME)
@@ -41,7 +41,7 @@ describe("ubi-" + CLASS_ID, () => {
 
   })
 
-  it("verifies the latest discussions", () => {
+  it("verifies latest discussions", () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL + "course/view.php?id=" + env.COURSE_ID)
     cy.get("a.aalink").eq(0)
