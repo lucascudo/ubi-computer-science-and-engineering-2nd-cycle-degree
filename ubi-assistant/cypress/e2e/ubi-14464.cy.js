@@ -35,9 +35,9 @@ describe("ubi-" + CLASS_ID, () => {
     cy.session(SESSION_ID)
     cy.visit(MOODLE_URL + "course/view.php?id=" + env.COURSE_ID)
     cy.get("header#page-header").should("contain.text", env.CLASS_NAME)
-    cy.get("a.aalink").eq(-1)
+    cy.get("a.aalink.stretched-link").eq(-1)
         .should("contain.text", env.LAST_FILE_NAME)
-        .should("have.attr", "href", MOODLE_URL + "mod/resource/view.php?id=" + env.LAST_FILE_ID)
+        .should("have.attr", "href", MOODLE_URL + "mod/" + env.LAST_FILE_TYPE + "/view.php?id=" + env.LAST_FILE_ID)
 
   })
 
@@ -54,5 +54,6 @@ describe("ubi-" + CLASS_ID, () => {
         .should("have.attr", "aria-label", env.LAST_DISCUSS_TITLE)
   })
 
+  //TODO check the latest lecture and the latest questions list
   //TODO check student report at https://moodle.ubi.pt/grade/report/user/index.php?id=17353
 })

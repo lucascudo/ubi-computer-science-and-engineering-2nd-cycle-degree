@@ -19,18 +19,18 @@ describe("ubi-14450", () => {
   })
 
   it("confirms the inexistence of new lectures", () => {
+    const getLastLectureElement = () => cy.get("div#LectureNotes > table > tbody > tr")
+        .eq(env.LAST_LECTURE.row).children("td")
     cy.visit(env.TEACHER_URL + env.CLASS_URL)
     cy.get("button").contains("Lecture Notes").click()
-    cy.get("div#LectureNotes > table > tbody > tr")
-        .eq(env.LAST_LECTURE.row).children("td")
-        .eq(env.LAST_LECTURE.column).should("be.empty")
+    getLastLectureElement().eq(1).should("be.empty")
+    getLastLectureElement().eq(2).should("be.empty")
   })
 
-  it("confirms that the grades are TBD", () => {
+  it("check latest grades (TBD)", () => {
     cy.visit(env.TEACHER_URL + env.CLASS_URL)
     cy.get("button").contains("Grades").click()
-    cy.get("div#Grades").contains("TBD").should(elem => {
-      expect(elem.text().trim()).to.equal("TBD")
-    })
+    //cy.get("div#Grades embed").contains("embed")
+    //    .should("have.attr", "original-url", env.TEACHER_URL + env.LAST_GRADES_URL)
   })
 })
