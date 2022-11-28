@@ -54,6 +54,5 @@ describe("ubi-" + CLASS_ID, () => {
         .should("have.attr", "aria-label", env.LAST_DISCUSS_TITLE)
   })
 
-  //TODO check the latest lecture and the latest questions list
   //TODO check student report at https://moodle.ubi.pt/grade/report/user/index.php?id=17353
 })
