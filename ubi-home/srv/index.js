@@ -6,10 +6,12 @@ initializeApp(env.firebase);
 const db = getFirestore();
 
 const commandsSnapshot = await getDocs(collection(db, "commands"));
-let lastCommand = commandsSnapshot.docs.sort((a, b) => a.data().timestamp - b.data().timestamp).pop();
+let lastCommand = commandsSnapshot.docs.sort(
+  (a, b) => a.data().timestamp - b.data().timestamp).pop();
 
 onSnapshot(collection(db, "commands"), async (commandsSnapshot) => {
-    const command = commandsSnapshot.docs.sort((a, b) => a.data().timestamp - b.data().timestamp).pop();
+    const command = commandsSnapshot.docs.sort(
+      (a, b) => a.data().timestamp - b.data().timestamp).pop();
     if (command &&  command.id !== lastCommand?.id) {
       const commandData = command.data();
       await runCommand(commandData.target, commandData.action);
