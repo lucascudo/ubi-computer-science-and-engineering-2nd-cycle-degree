@@ -1,0 +1,16 @@
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+env.js
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

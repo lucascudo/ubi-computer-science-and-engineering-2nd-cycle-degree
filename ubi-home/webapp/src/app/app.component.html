@@ -11,13 +11,13 @@
 <div class="content">
 
   <mat-action-list>
-    <button mat-list-item (click)="sendCommand('light', 'toggle')">
+    <button mat-list-item (click)="sendCommand('light', (lightIsOn) ? 'turnoff' : 'turnon')">
       <h3 matListItemTitle>Light bulb</h3>
       <mat-icon matListItemIcon [ngStyle]="{color: (lightIsOn) ? 'yellow' : ''}">lightbulb</mat-icon>
     </button>
-    <button mat-list-item (click)="sendCommand('door', 'close')">
+    <button mat-list-item (click)="sendCommand('door', (doorIsOpen) ? 'close' : 'open')">
       <h3 matListItemTitle>Front door</h3>
-      <mat-icon matListItemIcon>{{ (doorIsOpen) ? 'door_open' : 'door_front' }}</mat-icon>
+      <fa-icon matListItemIcon [icon]="getDoorIcon()"></fa-icon>
     </button>
   </mat-action-list>
 
