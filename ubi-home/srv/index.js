@@ -1,9 +1,23 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, onSnapshot, collection, getDocs, addDoc } from 'firebase/firestore';
 import env from "./env.js";
+import winston from 'winston';
 
 initializeApp(env.firebase);
 const db = getFirestore();
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or less to `error.log`
+    // - Write all logs with importance level of `info` or less to `combined.log`
+    //
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
 
 /*
 const five = require("johnny-five");
@@ -23,7 +37,7 @@ board.on("ready", () => {
         lastCommand = command;
         await runCommand(commandData.target, commandData.action);
       }
-  }, err => console.error(err));
+  }, err => logger.error(err));
 
   async function runCommand(target, action) {
     function turnLight(isOn) {
@@ -53,7 +67,7 @@ board.on("ready", () => {
         turnoff: () => turnLight(false)
       }
     }
-    console.log(`Running command: ${action} ${target}`);
+    logger.info(`Running command: ${action} ${target}`);
     await commands[target][action]();
   }
 /*

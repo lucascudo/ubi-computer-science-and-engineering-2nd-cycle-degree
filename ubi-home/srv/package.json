@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "firebase": "^9.17.2",
-    "johnny-five": "^2.1.0"
+    "johnny-five": "^2.1.0",
+    "winston": "^3.8.2"
   }
 }
