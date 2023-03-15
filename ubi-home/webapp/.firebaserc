@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ubi-61a39": {
+      "hosting": {
+        "ubi-home": [
+          "ubi-61a39"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ubi-61a39"
+  }
+}
