@@ -46,6 +46,11 @@ p {
   max-width: 960px;
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
 a,
 a:visited,
 a:hover {

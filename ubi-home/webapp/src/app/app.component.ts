@@ -11,6 +11,7 @@ import { Observable } from "rxjs";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
+  isLoading: boolean = true;
 
   lightStatusList: Observable<any[]>;
   lightIsOn: boolean = false;
@@ -20,12 +21,16 @@ export class AppComponent {
 
   constructor(private firestore: AngularFirestore) {
     this.lightStatusList = firestore.collection("lightStatus").valueChanges();
-    this.lightStatusList.subscribe(
-      (res) => this.lightIsOn = res.sort((a, b) => a.timestamp - b.timestamp).pop().isOn);
+    this.lightStatusList.subscribe((res) => {
+      this.lightIsOn = res.sort((a, b) => a.timestamp - b.timestamp).pop().isOn;
+      this.isLoading = false;
+    });
 
     this.doorStatusList = firestore.collection("doorStatus").valueChanges();
-    this.doorStatusList.subscribe(
-      (res) => this.doorIsOpen = res.sort((a, b) => a.timestamp - b.timestamp).pop().isOpen);
+    this.doorStatusList.subscribe((res) => {
+      this.doorIsOpen = res.sort((a, b) => a.timestamp - b.timestamp).pop().isOpen;
+      this.isLoading = false;
+    });
   }
 
   getDoorIcon() {
@@ -37,6 +42,7 @@ export class AppComponent {
   }
 
   sendCommand(target: string, action: string) {
+    this.isLoading = true;
     const timestamp = new Date();
     const commands = this.firestore.collection("commands");
     commands.add({timestamp, target, action});
