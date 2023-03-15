@@ -13,7 +13,7 @@
   <mat-action-list>
     <button mat-list-item (click)="sendCommand('light', (lightIsOn) ? 'turnoff' : 'turnon')">
       <h3 matListItemTitle>Light bulb</h3>
-      <mat-icon matListItemIcon [ngStyle]="{color: (lightIsOn) ? 'yellow' : ''}">lightbulb</mat-icon>
+      <fa-icon matListItemIcon [icon]="getLightIcon()"></fa-icon>
     </button>
     <button mat-list-item (click)="sendCommand('door', (doorIsOpen) ? 'close' : 'open')">
       <h3 matListItemTitle>Front door</h3>

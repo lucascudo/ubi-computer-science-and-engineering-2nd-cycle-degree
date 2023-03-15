@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { Timestamp } from "@angular/fire/firestore";
-import { faDoorClosed, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import { Observable } from "rxjs";
 
 
@@ -29,7 +29,12 @@ export class AppComponent {
   }
 
   getDoorIcon() {
-    return (this.doorIsOpen) ? faDoorOpen : faDoorClosed
+    return (this.doorIsOpen) ? faDoorOpen : faDoorClosed;
+  }
+
+  getLightIcon() {
+    console.log(this.lightIsOn);
+    return (this.lightIsOn) ? farLightbulb : fasLightbulb;
   }
 
   sendCommand(target: string, action: string) {
