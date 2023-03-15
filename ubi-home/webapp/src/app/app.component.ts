@@ -33,8 +33,7 @@ export class AppComponent {
   }
 
   getLightIcon() {
-    console.log(this.lightIsOn);
-    return (this.lightIsOn) ? farLightbulb : fasLightbulb;
+    return (this.lightIsOn) ? fasLightbulb : farLightbulb;
   }
 
   sendCommand(target: string, action: string) {
