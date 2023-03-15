@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, onSnapshot, collection, getDocs, addDoc } from 'firebase/firestore';
-import env from "./env.js";
 import winston from 'winston';
+import env from "./env.js";
 
 initializeApp(env.firebase);
 const db = getFirestore();
