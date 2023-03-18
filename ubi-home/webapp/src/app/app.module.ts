@@ -8,11 +8,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { AngularFireModule, FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireAuthModule,
+  SETTINGS as AUTH_SETTINGS,
+  USE_DEVICE_LANGUAGE,
+  PERSISTENCE
+} from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [
@@ -26,12 +30,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatGridListModule,
     MatButtonModule,
     MatIconModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireAuthModule,
     FontAwesomeModule
   ],
   providers: [
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
+    { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
+    { provide: USE_DEVICE_LANGUAGE, useValue: true }
   ],
   bootstrap: [AppComponent]
 })

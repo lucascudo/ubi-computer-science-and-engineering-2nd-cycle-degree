@@ -1,7 +1,14 @@
+
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
   <img height="70" alt="UBI Logo" src="assets/logotipo-ubi-en.png"/>
   <span>UBI-HOME</span>
+  <span class="spacer"></span>
+  <div *ngIf="!isLoading">
+    <span *ngIf="auth.user | async as user">
+      {{ user.displayName }} (<a mat-button href="#" color="accent" (click)="logout()">Logout</a>)
+    </span>
+  </div>
 </div>
 
 <div class="content">
@@ -9,7 +16,13 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <mat-grid-list cols="2" rowHeight="2:1" *ngIf="!isLoading">
+  <div class="login" *ngIf="!isLoading && !(auth.user | async)">
+    <p>Hello anonymous!</p>
+    <br/>
+    <button mat-flat-button color="primary" (click)="login()">Login with Google</button>
+  </div>
+
+  <mat-grid-list cols="2" rowHeight="2:1" *ngIf="!isLoading && (auth.user | async)">
     <mat-grid-tile (click)="sendCommand('light', (lightIsOn) ? 'turnoff' : 'turnon')">
       <button mat-fab [color]="(lightIsOn) ? 'primary' : 'white'" aria-label="Light bulb">
         <fa-icon size="lg" [icon]="getLightIcon()"></fa-icon>

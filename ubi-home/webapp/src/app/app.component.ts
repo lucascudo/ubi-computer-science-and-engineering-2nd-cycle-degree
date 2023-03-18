@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
 import { Observable } from "rxjs";
 
 
@@ -17,7 +19,7 @@ export class AppComponent {
   lightIsOn: boolean = false;
   doorIsOpen: boolean = false;
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, public auth: AngularFireAuth) {
     this.subscribeToDeviceStatus("lightStatus" , "isOn", (res: boolean) => this.lightIsOn = res);
     this.subscribeToDeviceStatus("doorStatus" , "isOpen", (res: boolean) => this.doorIsOpen = res);
   }
@@ -33,6 +35,22 @@ export class AppComponent {
     });
   }
 
+  login(): void {
+    this.isLoading = true;
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (credential: firebase.auth.UserCredential) => {
+      this.firestore.doc(`users/${credential.user?.email}`).get().subscribe(user => {
+        if (!user.exists) {
+          this.auth.signOut();
+        }
+        this.isLoading = false;
+      });
+    });
+  }
+
+  logout(): void {
+    this.auth.signOut();
+  }
+
   getDoorIcon(): IconDefinition {
     return (this.doorIsOpen) ? faDoorOpen : faDoorClosed;
   }
@@ -46,5 +64,5 @@ export class AppComponent {
     const requestedAt = new Date();
     const commands = this.firestore.collection("commands");
     commands.add({requestedAt, target, action});
-  }
+  } 
 }
