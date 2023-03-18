@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { AngularFirestore, DocumentReference } from "@angular/fire/compat/firestore";
 import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -39,8 +39,18 @@ export class AppComponent {
     this.isLoading = true;
     this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (credential: firebase.auth.UserCredential) => {
       this.firestore.doc(`users/${credential.user?.email}`).get().subscribe(user => {
-        if (!user.exists) {
+        if (user.exists) {
+          this.firestore.doc(user.ref as DocumentReference).update({ lastLogin: new Date() });
+        } else {
           this.auth.signOut();
+          this.firestore.collection("unauthorizedLogins").add({
+            timestamp: new Date(),
+            user: {
+              displayName: credential.user?.displayName,
+              email: credential.user?.email,
+              photoURL: credential.user?.photoURL
+            }
+          });
         }
         this.isLoading = false;
       });
@@ -62,7 +72,6 @@ export class AppComponent {
   sendCommand(target: string, action: string): void {
     this.isLoading = true;
     const requestedAt = new Date();
-    const commands = this.firestore.collection("commands");
-    commands.add({requestedAt, target, action});
+    this.firestore.collection("commands").add({requestedAt, target, action});
   } 
 }
