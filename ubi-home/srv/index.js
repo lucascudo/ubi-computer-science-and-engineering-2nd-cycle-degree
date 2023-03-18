@@ -1,63 +1,81 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, onSnapshot, collection, getDocs, addDoc } from 'firebase/firestore';
+import { getFirestore, onSnapshot, collection, addDoc, updateDoc } from 'firebase/firestore';
 import winston from 'winston';
 import env from "./env.js";
+import five from "johnny-five";
 
 initializeApp(env.firebase);
 const db = getFirestore();
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  defaultMeta: { service: 'user-service' },
-  transports: [
-    //
-    // - Write all logs with importance level of `error` or less to `error.log`
-    // - Write all logs with importance level of `info` or less to `combined.log`
-    //
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
-  ],
-});
+const logger = setupLogger();
+if (env.boardless) {
+  setupCommandListener();
+} else {
+  const board = new five.Board();
+  board.on("ready", setupCommandListener);
+}
 
-/*
-const five = require("johnny-five");
-const  board = new five.Board();
 
-board.on("ready", () => {
-*/
-  const commandsSnapshot = await getDocs(collection(db, "commands"));
-  let lastCommand = commandsSnapshot.docs.sort(
-    (a, b) => a.data().timestamp - b.data().timestamp).pop();
-
-  onSnapshot(collection(db, "commands"), async (commandsSnapshot) => {
-      const command = commandsSnapshot.docs.sort(
-        (a, b) => a.data().timestamp - b.data().timestamp).pop();
-      if (command &&  command.id !== lastCommand?.id) {
-        const commandData = command.data();
-        lastCommand = command;
-        await runCommand(commandData.target, commandData.action);
+function setupLogger() {
+  try {
+    const { createLogger, format } = winston;
+    const { combine, splat, timestamp, printf } = format;
+    const myFormat = printf( ({ level, message, timestamp , ...metadata}) => {
+      let msg = `${timestamp} [${level}] : ${message} `;
+      if(metadata) {
+        msg += JSON.stringify(metadata);
       }
-  }, err => logger.error(err));
+      console.log(timestamp, message);
+      console.log(msg);
+      return msg;
+    });
+    return createLogger({
+      level: 'info',
+      format: combine(
+        format.colorize(),
+        splat(),
+        timestamp(),
+        myFormat
+      ),
+      defaultMeta: { service: 'user-service' },
+      transports: [
+        // Write all logs with importance level of `error` or less to `error.log`
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        // Write all logs with importance level of `info` or less to `combined.log`
+        new winston.transports.File({ filename: 'combined.log' }),
+      ],
+    });
+  } catch(err) {
+      console.error(err);
+      console.log("Command logger off");
+      return {
+        info: console.log,
+        warn: console.log,
+        error: console.error
+      }
+  }
+}
 
-  async function runCommand(target, action) {
+function setupCommandListener() {
+  const runCommand = async (command) => {
+    const commandData = command.data();
     function turnLight(isOn) {
-      /*
-      const led = new five.Led(13);
-      if (isOn) {
-        led.on();
-      } else {
-        led.off();
+      if (!env.boardless) {
+        const led = new five.Led(13);
+        if (isOn) {
+          led.on();
+        } else {
+          led.off();
+        }
       }
-      */
       addDoc(collection(db, "lightStatus"), {timestamp, isOn});
     }
-
+  
     function moveDoor(isOpen) {
       addDoc(collection(db, "doorStatus"), {timestamp, isOpen});
     }
-
+  
     const timestamp = new Date();
-    const commands = {
+    const commandList = {
       door: {
         open: () => moveDoor(true),
         close: () => moveDoor(false)
@@ -67,9 +85,17 @@ board.on("ready", () => {
         turnoff: () => turnLight(false)
       }
     }
-    logger.info(`Running command: ${action} ${target}`);
-    await commands[target][action]();
+    logger.info(`Running command: ${commandData.action} ${commandData.target}`);
+    await commandList[commandData.target][commandData.action]();
+    return updateDoc(command.ref, { executedAt: new Date() });
   }
-/*
-});
-*/
+
+  return onSnapshot(collection(db, "commands"), (commandsSnapshot) => commandsSnapshot.docs
+    .sort((a, b) => a.data().requestedAt - b.data().requestedAt)
+    .forEach((command) => {
+      if (command && !command.data().ack) {
+        updateDoc(command.ref, { ack: true });
+        runCommand(command);
+      }
+    }), err => logger.error(err));
+}

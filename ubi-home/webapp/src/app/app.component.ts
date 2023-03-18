@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import { Observable } from "rxjs";
 
@@ -13,38 +13,38 @@ import { Observable } from "rxjs";
 export class AppComponent {
   isLoading: boolean = true;
 
-  lightStatusList: Observable<any[]>;
+  
   lightIsOn: boolean = false;
-
-  doorStatusList: Observable<any[]>;
   doorIsOpen: boolean = false;
 
   constructor(private firestore: AngularFirestore) {
-    this.lightStatusList = firestore.collection("lightStatus").valueChanges();
-    this.lightStatusList.subscribe((res) => {
-      this.lightIsOn = res.sort((a, b) => a.timestamp - b.timestamp).pop().isOn;
-      this.isLoading = false;
-    });
+    this.subscribeToDeviceStatus("lightStatus" , "isOn", (res: boolean) => this.lightIsOn = res);
+    this.subscribeToDeviceStatus("doorStatus" , "isOpen", (res: boolean) => this.doorIsOpen = res);
+  }
 
-    this.doorStatusList = firestore.collection("doorStatus").valueChanges();
-    this.doorStatusList.subscribe((res) => {
-      this.doorIsOpen = res.sort((a, b) => a.timestamp - b.timestamp).pop().isOpen;
+  private subscribeToDeviceStatus(collectionName: string, field:string, cb: Function): void {
+    const statusObservable: Observable<any[]> = this.firestore.collection(collectionName).valueChanges();
+    statusObservable.subscribe((res) => {
+      const statusList = res;
+      statusList.sort((a, b) => a.timestamp - b.timestamp)
+      const status = statusList.pop();
+      cb((status) ? status[field] : undefined);
       this.isLoading = false;
     });
   }
 
-  getDoorIcon() {
+  getDoorIcon(): IconDefinition {
     return (this.doorIsOpen) ? faDoorOpen : faDoorClosed;
   }
 
-  getLightIcon() {
+  getLightIcon(): IconDefinition {
     return (this.lightIsOn) ? fasLightbulb : farLightbulb;
   }
 
-  sendCommand(target: string, action: string) {
+  sendCommand(target: string, action: string): void {
     this.isLoading = true;
-    const timestamp = new Date();
+    const requestedAt = new Date();
     const commands = this.firestore.collection("commands");
-    commands.add({timestamp, target, action});
+    commands.add({requestedAt, target, action});
   }
 }
