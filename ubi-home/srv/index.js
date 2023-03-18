@@ -99,11 +99,10 @@ function setupCommandListener() {
   }
 
   return onSnapshot(collection(db, "commands"), (commandsSnapshot) => commandsSnapshot.docs
+    .filter(command => !command.data().ack)
     .sort((a, b) => a.data().requestedAt - b.data().requestedAt)
     .forEach((command) => {
-      if (command && !command.data().ack) {
-        updateDoc(command.ref, { ack: true });
-        runCommand(command);
-      }
+      updateDoc(command.ref, { ack: true });
+      runCommand(command);
     }), err => logger.error(err));
 }
