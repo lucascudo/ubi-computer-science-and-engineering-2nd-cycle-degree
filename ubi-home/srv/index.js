@@ -1,12 +1,20 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, onSnapshot, collection, addDoc, updateDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  enableIndexedDbPersistence,
+  onSnapshot,
+  collection,
+  addDoc,
+  updateDoc
+} from 'firebase/firestore';
 import winston from 'winston';
-import env from "./env.js";
 import five from "johnny-five";
+import env from "./env.js";
 
 initializeApp(env.firebase);
 const db = getFirestore();
 const logger = setupLogger();
+enableIndexedDbPersistence(db).catch(() => {});
 if (env.boardless) {
   setupCommandListener();
 } else {
