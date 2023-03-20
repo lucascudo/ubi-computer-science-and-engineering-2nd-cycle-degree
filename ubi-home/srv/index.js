@@ -115,7 +115,6 @@ function setupCommandListener() {
   const runCommand = async (command) => {
     const timestamp = new Date();
     const commandData = command.data();
-
     const commandList = {
       door: {
         close: () => !env.boardless && motor.start()
