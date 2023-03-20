@@ -55,7 +55,6 @@ function setupLogger() {
       if(metadata) {
         msg += JSON.stringify(metadata);
       }
-      console.log(timestamp, message);
       console.log(msg);
       return msg;
     });
@@ -92,7 +91,7 @@ function setupBoardListeners () {
     const doorStatus = (isOpen) ? "open" : "closed";
     logger.info(`The door is ${doorStatus}`);
     addDoc(collection(db, "doorStatus"), {timestamp, isOpen});
-  };
+  }
 
   sw.on("open", () => updateDoorStatus(true));
   sw.on("close", () => () => {
@@ -114,7 +113,7 @@ function setupBoardListeners () {
 function setupCommandListener() {
   const runCommand = async (command) => {
     const timestamp = new Date();
-    const commandData = command.data();
+    const {action, target} = command.data();
     const commandList = {
       door: {
         close: () => !env.boardless && motor.start()
@@ -137,16 +136,15 @@ function setupCommandListener() {
       }
     }
   
-    logger.info(`Running command: ${commandData.action} ${commandData.target}`);
-    await commandList[commandData.target][commandData.action]();
+    logger.info(`Running command: ${action} ${target}`);
+    await commandList[target][action]();
     return updateDoc(command.ref, { executedAt: new Date() });
-  };
+  }
 
-  return onSnapshot(collection(db, "commands"), (commandsSnapshot) => commandsSnapshot.docs
-    .filter(command => !command.data().ack)
-    .sort((a, b) => a.data().requestedAt - b.data().requestedAt)
-    .forEach((command) => {
-      updateDoc(command.ref, { ack: true });
-      runCommand(command);
-    }), err => logger.error(err));
+  return onSnapshot(collection(db, "commands"), (commandsSnapshot) => {
+    commandsSnapshot.docs
+      .filter((command) => !command.data().ack)
+      .sort((a, b) => a.data().requestedAt - b.data().requestedAt)
+      .forEach((command) => updateDoc(command.ref, { ack: true }) && runCommand(command));
+    }, err => logger.error(err));
 }
