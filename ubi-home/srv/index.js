@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
-  enableIndexedDbPersistence,
+  //enableIndexedDbPersistence,
   onSnapshot,
   collection,
   addDoc,
@@ -14,7 +14,7 @@ import env from "./env.js";
 initializeApp(env.firebase);
 const db = getFirestore();
 const logger = setupLogger();
-enableIndexedDbPersistence(db).catch(() => {});
+//enableIndexedDbPersistence(db).catch(() => {});
 if (env.boardless) {
   setupCommandListener();
 } else {
