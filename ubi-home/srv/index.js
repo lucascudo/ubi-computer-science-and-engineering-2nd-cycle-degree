@@ -116,18 +116,16 @@ function setupCommandListener() {
     const timestamp = new Date();
     const commandData = command.data();
     const turnLight = (isOn) => {
-      if (!env.boardless) {
-        if (isOn) {
-          led.on();
-        } else {
-          led.off();
-        }
+      if (isOn) {
+        !env.boardless && led.on();
+      } else {
+        !env.boardless && led.off();
       }
       addDoc(collection(db, "lightStatus"), {timestamp, isOn});
     };
     const commandList = {
       door: {
-        close: motor.start
+        close: () => !env.boardless && motor.start()
       },
       light: {
         turnon: () => turnLight(true),
