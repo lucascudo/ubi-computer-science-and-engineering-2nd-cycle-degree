@@ -26,7 +26,7 @@ if (env.boardless) {
       pin: env.pins.motor
     });
     const photoresistor = new five.Sensor({
-      pin: "A2",
+      pin: env.pins.photoresistor,
       freq: 250
     });
     const thermometer = new five.Thermometer({
