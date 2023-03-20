@@ -19,7 +19,30 @@ if (env.boardless) {
   setupCommandListener();
 } else {
   const board = new five.Board();
-  board.on("ready", setupCommandListener);
+  board.on("ready", () => {
+    const led = new five.Led(env.pins.led);
+    const sw = new five.Switch(env.pins.switch);
+    const motor = new five.Motor({
+      pin: env.pins.motor
+    });
+    const photoresistor = new five.Sensor({
+      pin: "A2",
+      freq: 250
+    });
+    const thermometer = new five.Thermometer({
+      controller: "LM35",
+      pin: env.pins.thermometer
+    });
+    // Inject the `motor` and`sensor` hardware into
+    // the Repl instance's context;
+    // allows direct command line access
+    board.repl.inject({
+      pot: photoresistor,
+      motor,
+    });
+    setupBoardListeners();
+    setupCommandListener();
+  });
 }
 
 
@@ -63,12 +86,37 @@ function setupLogger() {
   }
 }
 
+function setupBoardListeners () {
+  const timestamp = new Date();
+  const updateDoorStatus = (isOpen) => {
+    const doorStatus = (isOpen) ? "open" : "closed";
+    logger.info(`The door is ${doorStatus}`);
+    addDoc(collection(db, "doorStatus"), {timestamp, isOpen});
+  };
+
+  sw.on("open", () => updateDoorStatus(true));
+  sw.on("close", () => () => {
+    motor.stop();
+    updateDoorStatus(false);
+  });
+  thermometer.on("change", () =>  {
+    const value = thermometer.celcius;
+    logger.info(`Temperature changed to: ${value}`);  
+    addDoc(collection(db, "tempStatus"), {timestamp, value});
+  });
+  photoresistor.on("data", function () {
+    const {value} = this;
+    logger.info(`Luminosity changed to: ${value}`);  
+    addDoc(collection(db, "luxStatus"), {timestamp, value});
+  });
+}
+
 function setupCommandListener() {
   const runCommand = async (command) => {
+    const timestamp = new Date();
     const commandData = command.data();
-    function turnLight(isOn) {
+    const turnLight = (isOn) => {
       if (!env.boardless) {
-        const led = new five.Led(13);
         if (isOn) {
           led.on();
         } else {
@@ -76,27 +124,21 @@ function setupCommandListener() {
         }
       }
       addDoc(collection(db, "lightStatus"), {timestamp, isOn});
-    }
-  
-    function moveDoor(isOpen) {
-      addDoc(collection(db, "doorStatus"), {timestamp, isOpen});
-    }
-  
-    const timestamp = new Date();
+    };
     const commandList = {
       door: {
-        open: () => moveDoor(true),
-        close: () => moveDoor(false)
+        close: motor.start
       },
       light: {
         turnon: () => turnLight(true),
         turnoff: () => turnLight(false)
       }
     }
+  
     logger.info(`Running command: ${commandData.action} ${commandData.target}`);
     await commandList[commandData.target][commandData.action]();
     return updateDoc(command.ref, { executedAt: new Date() });
-  }
+  };
 
   return onSnapshot(collection(db, "commands"), (commandsSnapshot) => commandsSnapshot.docs
     .filter(command => !command.data().ack)

@@ -3,6 +3,11 @@
 Internet of Things Proof of Concept fully developed in JavaScript.
 
 ## Setup
+Install nodemon
+```
+npm i -g nodemon
+```
+Install the app dependencies
 ```
 npm i
 ```

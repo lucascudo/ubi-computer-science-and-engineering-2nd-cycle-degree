@@ -15,13 +15,16 @@ import { Observable } from "rxjs";
 export class AppComponent {
   isLoading: boolean = true;
 
-  
   lightIsOn: boolean = false;
   doorIsOpen: boolean = false;
+  temp: number | undefined;
+  lux: number | undefined;
 
   constructor(private firestore: AngularFirestore, public auth: AngularFireAuth) {
     this.subscribeToDeviceStatus("lightStatus" , "isOn", (res: boolean) => this.lightIsOn = res);
     this.subscribeToDeviceStatus("doorStatus" , "isOpen", (res: boolean) => this.doorIsOpen = res);
+    this.subscribeToDeviceStatus("tempStatus" , "value", (res: number) => this.temp = res);
+    this.subscribeToDeviceStatus("luxStatus" , "value", (res: number) => this.lux = res);
   }
 
   private subscribeToDeviceStatus(collectionName: string, field:string, cb: Function): void {
