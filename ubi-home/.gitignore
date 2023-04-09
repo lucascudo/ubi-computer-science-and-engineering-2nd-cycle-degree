@@ -5,3 +5,7 @@ Thumbs.db
 # IDE files
 .idea/*
 .vscode/*
+
+# Firebase
+.firebaserc
+firebase.json
