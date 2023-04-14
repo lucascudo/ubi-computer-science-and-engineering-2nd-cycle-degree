@@ -3,7 +3,7 @@ import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb, IconDefinition }
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FirebaseService } from "./firebase.service";
-import { SentorStatus } from "./enums";
+import { SensorStatuses } from "./enums";
 import { ISensorStatus } from "./sensor-status.interface";
 
 
@@ -23,22 +23,22 @@ export class AppComponent {
     [
       {
         docName: "lightStatus",
-        collum: SentorStatus.isOn,
+        collum: SensorStatuses.isOn,
         internalProp: this.lightIsOn
       },
       {
         docName: "doorStatus",
-        collum: SentorStatus.isOpen,
+        collum: SensorStatuses.isOpen,
         internalProp: this.doorIsOpen
       },
       {
         docName: "tempStatus",
-        collum: SentorStatus.value,
+        collum: SensorStatuses.value,
         internalProp: this.temp
       },
       {
         docName: "luxStatus",
-        collum: SentorStatus.value,
+        collum: SensorStatuses.value,
         internalProp: this.lux
       }
     ].forEach((s) => {
@@ -50,7 +50,7 @@ export class AppComponent {
     });
   }
 
-  private subscribeToDeviceStatus(collectionName: string, field: SentorStatus, cb: (status: boolean | number | undefined) => void): void {
+  private subscribeToDeviceStatus(collectionName: string, field: SensorStatuses, cb: (status: boolean | number | undefined) => void): void {
     const statusObservable = this.firebase.getCollection<ISensorStatus>(collectionName).valueChanges();
     statusObservable.subscribe((res) => {
       const statusList = res;
