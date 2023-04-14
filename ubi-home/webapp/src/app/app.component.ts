@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
-import { AngularFirestore, DocumentReference } from "@angular/fire/compat/firestore";
 import { faDoorClosed, faDoorOpen, faLightbulb as fasLightbulb, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
-import { Observable } from "rxjs";
+import { FirebaseService } from "./firebase.service";
+import { SentorStatus } from "./enums";
+import { ISensorStatus } from "./sensor-status.interface";
 
 
 @Component({
@@ -13,22 +13,45 @@ import { Observable } from "rxjs";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  isLoading: boolean = true;
-
-  lightIsOn: boolean = false;
-  doorIsOpen: boolean = false;
+  isLoading = true;
+  lightIsOn = false;
+  doorIsOpen = false;
   temp: number | undefined;
   lux: number | undefined;
 
-  constructor(private firestore: AngularFirestore, public auth: AngularFireAuth) {
-    this.subscribeToDeviceStatus("lightStatus" , "isOn", (res: boolean) => this.lightIsOn = res);
-    this.subscribeToDeviceStatus("doorStatus" , "isOpen", (res: boolean) => this.doorIsOpen = res);
-    this.subscribeToDeviceStatus("tempStatus" , "value", (res: number) => this.temp = res);
-    this.subscribeToDeviceStatus("luxStatus" , "value", (res: number) => this.lux = res);
+  constructor(private firebase: FirebaseService, public auth: AngularFireAuth) {
+    [
+      {
+        docName: "lightStatus",
+        collum: SentorStatus.isOn,
+        internalProp: this.lightIsOn
+      },
+      {
+        docName: "doorStatus",
+        collum: SentorStatus.isOpen,
+        internalProp: this.doorIsOpen
+      },
+      {
+        docName: "tempStatus",
+        collum: SentorStatus.value,
+        internalProp: this.temp
+      },
+      {
+        docName: "luxStatus",
+        collum: SentorStatus.value,
+        internalProp: this.lux
+      }
+    ].forEach((s) => {
+      this.subscribeToDeviceStatus(s.docName, s.collum, (res) => {
+        if (res !== undefined) {
+          s.internalProp = res;
+        }
+      });
+    });
   }
 
-  private subscribeToDeviceStatus(collectionName: string, field:string, cb: Function): void {
-    const statusObservable: Observable<any[]> = this.firestore.collection(collectionName).valueChanges();
+  private subscribeToDeviceStatus(collectionName: string, field: SentorStatus, cb: (status: boolean | number | undefined) => void): void {
+    const statusObservable = this.firebase.getCollection<ISensorStatus>(collectionName).valueChanges();
     statusObservable.subscribe((res) => {
       const statusList = res;
       statusList.sort((a, b) => a.timestamp - b.timestamp)
@@ -38,30 +61,13 @@ export class AppComponent {
     });
   }
 
-  login(): void {
+  signIn(): void {
     this.isLoading = true;
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (credential: firebase.auth.UserCredential) => {
-      this.firestore.doc(`users/${credential.user?.email}`).get().subscribe(user => {
-        if (user.exists) {
-          this.firestore.doc(user.ref as DocumentReference).update({ lastLogin: new Date() });
-        } else {
-          this.auth.signOut();
-          this.firestore.collection("unauthorizedLogins").add({
-            timestamp: new Date(),
-            user: {
-              displayName: credential.user?.displayName,
-              email: credential.user?.email,
-              photoURL: credential.user?.photoURL
-            }
-          });
-        }
-        this.isLoading = false;
-      });
-    });
+    this.firebase.signIn(() => this.isLoading = false)
   }
 
-  logout(): void {
-    this.auth.signOut();
+  signOut(): void {
+    this.firebase.signOut();
   }
 
   getDoorIcon(): IconDefinition {
@@ -74,7 +80,6 @@ export class AppComponent {
 
   sendCommand(target: string, action: string): void {
     this.isLoading = true;
-    const requestedAt = new Date();
-    this.firestore.collection("commands").add({requestedAt, target, action});
+    this.firebase.sendCommand(target, action);
   } 
 }

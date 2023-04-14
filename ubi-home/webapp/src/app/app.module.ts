@@ -9,13 +9,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { environment } from '../environments/environment';
-import { AngularFireModule, FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { AngularFireModule } from '@angular/fire/compat';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule,
   SETTINGS as AUTH_SETTINGS,
-  USE_DEVICE_LANGUAGE,
-  PERSISTENCE
+  USE_DEVICE_LANGUAGE
 } from '@angular/fire/compat/auth';
 
 @NgModule({

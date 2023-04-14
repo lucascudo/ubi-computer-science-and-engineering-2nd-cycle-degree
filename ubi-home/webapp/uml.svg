@@ -1,0 +1,132 @@
+<svg version="1.1" baseProfile="full" width="1212.0" height="314.0" viewbox="0 0 1212 314" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events">
+<desc >#.interface: fill=lightblue
+#.enumeration: fill=lightgreen
+#.type: fill=lightgray
+[AppComponent|+isLoading: boolean;+lightIsOn: boolean;+doorIsOpen: boolean;+temp: number \| undefined;+lux: number \| undefined;-firebase: FirebaseService;+auth: AngularFireAuth|-subscribeToDeviceStatus(): void;+signIn(): void;+signOut(): void;+getDoorIcon(): IconDefinition;+getLightIcon(): IconDefinition;+sendCommand(): void]
+[&lt;enumeration&gt;SentorStatus|isOn;isOpen;value]
+[FirebaseService|-firestore: AngularFirestore;-auth: AngularFireAuth|+getCollection(): AngularFirestoreCollection&lt;T&gt;;+signIn(): void;+signOut(): void;+sendCommand(): void]
+[&lt;interface&gt;ISensorStatus|+timestamp: number;+isOn: boolean \| undefined;+isOpen: boolean \| undefined;+value: number \| undefined|]</desc>
+<g stroke-width="1.0" text-align="left" font="12pt Helvetica, Arial, sans-serif" font-size="12pt" font-family="Helvetica" font-weight="normal" font-style="normal">
+<g transform="translate(0.5, 0.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round" stroke="#33322E">
+<g stroke="transparent" fill="transparent">
+<rect x="0.0" y="0.0" height="314.0" width="1212.0" stroke="none"></rect>
+</g>
+<g transform="translate(8, 8)" fill="#33322E">
+<g transform="translate(20, 20)">
+<g data-name="AppComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="AppComponent">
+<rect x="0.0" y="0.0" height="258.0" width="278.0" data-name="AppComponent"></rect>
+<path d="M0.0 31.0 L278.0 31.0" fill="none" data-name="AppComponent"></path>
+<path d="M0.0 152.0 L278.0 152.0" fill="none" data-name="AppComponent"></path>
+</g>
+<g transform="translate(0, 0)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AppComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AppComponent">
+<a id="src\app\app.component.ts.AppComponent" xlink:href="src\app\app.component.ts"><text x="131.0" y="13.5" stroke="none" text-anchor="middle" data-name="AppComponent">AppComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(0, 31)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AppComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="AppComponent">+isLoading: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="AppComponent">+lightIsOn: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="AppComponent">+doorIsOpen: boolean</text>
+<text x="0.0" y="58.5" stroke="none" data-name="AppComponent">+temp: number | undefined</text>
+<text x="0.0" y="73.5" stroke="none" data-name="AppComponent">+lux: number | undefined</text>
+<text x="0.0" y="88.5" stroke="none" data-name="AppComponent">-firebase: FirebaseService</text>
+<text x="0.0" y="103.5" stroke="none" data-name="AppComponent">+auth: AngularFireAuth</text>
+
+</g>
+</g>
+<g transform="translate(0, 152)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AppComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="AppComponent">-subscribeToDeviceStatus(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="AppComponent">+signIn(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="AppComponent">+signOut(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="AppComponent">+getDoorIcon(): IconDefinition</text>
+<text x="0.0" y="73.5" stroke="none" data-name="AppComponent">+getLightIcon(): IconDefinition</text>
+<text x="0.0" y="88.5" stroke="none" data-name="AppComponent">+sendCommand(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="FirebaseService">
+<g fill="#eee8d5" stroke="#33322E" data-name="FirebaseService">
+<rect x="318.0" y="53.0" height="153.0" width="390.0" data-name="FirebaseService"></rect>
+<path d="M318.0 84.0 L708.0 84.0" fill="none" data-name="FirebaseService"></path>
+<path d="M318.0 130.0 L708.0 130.0" fill="none" data-name="FirebaseService"></path>
+</g>
+<g transform="translate(318, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="FirebaseService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="FirebaseService">
+<a id="src\app\firebase.service.ts.FirebaseService" xlink:href="src\app\firebase.service.ts"><text x="187.0" y="13.5" stroke="none" text-anchor="middle" data-name="FirebaseService">FirebaseService</text></a>
+
+</g>
+</g>
+<g transform="translate(318, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="FirebaseService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="FirebaseService">
+<text x="0.0" y="13.5" stroke="none" data-name="FirebaseService">-firestore: AngularFirestore</text>
+<text x="0.0" y="28.5" stroke="none" data-name="FirebaseService">-auth: AngularFireAuth</text>
+
+</g>
+</g>
+<g transform="translate(318, 130)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="FirebaseService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="FirebaseService">
+<text x="0.0" y="13.5" stroke="none" data-name="FirebaseService">+getCollection(): AngularFirestoreCollection&lt;T&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="FirebaseService">+signIn(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="FirebaseService">+signOut(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="FirebaseService">+sendCommand(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="ISensorStatus">
+<g fill="lightblue" stroke="#33322E" data-name="ISensorStatus">
+<rect x="748.0" y="72.0" height="115.0" width="250.0" data-name="ISensorStatus"></rect>
+<path d="M748.0 103.0 L998.0 103.0" fill="none" data-name="ISensorStatus"></path>
+<path d="M748.0 179.0 L998.0 179.0" fill="none" data-name="ISensorStatus"></path>
+</g>
+<g transform="translate(748, 72)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ISensorStatus">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ISensorStatus">
+<a id="src\app\sensor-status.interface.ts.ISensorStatus" xlink:href="src\app\sensor-status.interface.ts"><text x="117.0" y="13.5" stroke="none" text-anchor="middle" data-name="ISensorStatus">ISensorStatus</text></a>
+
+</g>
+</g>
+<g transform="translate(748, 103)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ISensorStatus">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ISensorStatus">
+<text x="0.0" y="13.5" stroke="none" data-name="ISensorStatus">+timestamp: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ISensorStatus">+isOn: boolean | undefined</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ISensorStatus">+isOpen: boolean | undefined</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ISensorStatus">+value: number | undefined</text>
+
+</g>
+</g>
+<g transform="translate(748, 179)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ISensorStatus">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ISensorStatus">
+
+</g>
+</g>
+</g>
+<g data-name="SentorStatus">
+<g fill="lightgreen" stroke="#33322E" data-name="SentorStatus">
+<rect x="1038.0" y="83.0" height="92.0" width="118.0" data-name="SentorStatus"></rect>
+<path d="M1038.0 114.0 L1156.0 114.0" fill="none" data-name="SentorStatus"></path>
+</g>
+<g transform="translate(1038, 83)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SentorStatus">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SentorStatus">
+<a id="src\app\enums.ts.SentorStatus" xlink:href="src\app\enums.ts"><text x="51.0" y="13.5" stroke="none" text-anchor="middle" data-name="SentorStatus">SentorStatus</text></a>
+
+</g>
+</g>
+<g transform="translate(1038, 114)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SentorStatus">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SentorStatus">
+<text x="0.0" y="13.5" stroke="none" data-name="SentorStatus">isOn</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SentorStatus">isOpen</text>
+<text x="0.0" y="43.5" stroke="none" data-name="SentorStatus">value</text>
+
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

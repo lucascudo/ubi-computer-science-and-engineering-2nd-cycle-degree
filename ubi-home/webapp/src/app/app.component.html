@@ -6,7 +6,7 @@
   <span class="spacer"></span>
   <div *ngIf="!isLoading" >
     <span *ngIf="auth.user | async as user">
-      {{ user.displayName }} -<a mat-button href="#" color="accent" (click)="logout()">Logout</a>
+      {{ user.displayName }} -<a mat-button href="#" color="accent" (click)="signOut()">Logout</a>
     </span>
   </div>
 </div>
@@ -16,10 +16,10 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <div class="login" *ngIf="!isLoading && !(auth.user | async)">
+  <div class="signIn" *ngIf="!isLoading && !(auth.user | async)">
     <p>Hello anonymous!</p>
     <br/>
-    <button mat-flat-button color="primary" (click)="login()">Login with Google</button>
+    <button mat-flat-button color="primary" (click)="signIn()">Login with Google</button>
   </div>
 
   <mat-grid-list cols="2" rowHeight="2:1" *ngIf="!isLoading && (auth.user | async)">
