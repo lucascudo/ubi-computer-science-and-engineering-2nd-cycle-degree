@@ -30,18 +30,18 @@ if (env.boardless) {
       freq: 250
     });
     const thermometer = new five.Thermometer({
-      controller: "LM35",
+      controller: env.thermometerDriver,
       pin: env.pins.thermometer
     });
-    // Inject the `motor` and`sensor` hardware into
+    // Inject the `motor` and `photoresistor` hardware into
     // the Repl instance's context;
     // allows direct command line access
     board.repl.inject({
       pot: photoresistor,
       motor,
     });
-    setupBoardListeners();
-    setupCommandListener();
+    setupBoardListeners(photoresistor, thermometer, sw, motor);
+    setupCommandListener(led, motor);
   });
 }
 
@@ -85,32 +85,31 @@ function setupLogger() {
   }
 }
 
-function setupBoardListeners () {
+function setupBoardListeners(photoresistor, thermometer, sw, motor) {
   const timestamp = new Date();
   const updateDoorStatus = (isOpen) => {
     const doorStatus = (isOpen) ? "open" : "closed";
     logger.info(`The door is ${doorStatus}`);
     addDoc(collection(db, "doorStatus"), {timestamp, isOpen});
   }
-
   sw.on("open", () => updateDoorStatus(true));
   sw.on("close", () => () => {
     motor.stop();
     updateDoorStatus(false);
   });
-  thermometer.on("change", () =>  {
-    const value = thermometer.celcius;
-    logger.info(`Temperature changed to: ${value}`);  
-    addDoc(collection(db, "tempStatus"), {timestamp, value});
-  });
-  photoresistor.on("data", function () {
-    const {value} = this;
-    logger.info(`Luminosity changed to: ${value}`);  
-    addDoc(collection(db, "luxStatus"), {timestamp, value});
-  });
+
+
+  setInterval(() => {
+    const temp = thermometer.celsius;
+    const lux = photoresistor.value;
+    logger.info(`Temperature: ${temp}`);
+    addDoc(collection(db, "tempStatus"), {timestamp, temp});
+    logger.info(`Luminosity: ${lux}`);
+    addDoc(collection(db, "luxStatus"), {timestamp, lux});
+  }, env.refreshInterval);
 }
 
-function setupCommandListener() {
+function setupCommandListener(led, motor) {
   const runCommand = async (command) => {
     const timestamp = new Date();
     const {action, target} = command.data();
