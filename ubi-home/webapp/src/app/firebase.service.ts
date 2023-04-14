@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import { SensorCollections } from './enums';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class FirebaseService {
 
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) { }
 
-  getCollection<T>(collectionName: string) {
+  getCollection<T>(collectionName: SensorCollections) {
     return this.firestore.collection<T>(collectionName);
   }
 

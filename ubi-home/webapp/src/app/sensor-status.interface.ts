@@ -1,4 +1,4 @@
-export interface ISensorStatus {
+export default interface ISensorStatus {
     timestamp: number,
     isOn?: boolean,
     isOpen?: boolean,

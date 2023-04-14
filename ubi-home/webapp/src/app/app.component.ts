@@ -4,7 +4,8 @@ import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FirebaseService } from "./firebase.service";
 import { SensorStatuses } from "./enums";
-import { ISensorStatus } from "./sensor-status.interface";
+import ISensorStatus from "./sensor-status.interface";
+import { SensorCollections } from "./enums";
 
 
 @Component({
@@ -13,44 +14,45 @@ import { ISensorStatus } from "./sensor-status.interface";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  isLoading = true;
-  lightIsOn = false;
-  doorIsOpen = false;
+  isLoading: boolean | undefined = true;
+  lightIsOn: boolean | undefined = false;
+  doorIsOpen: boolean | undefined = false;
   temp: number | undefined;
   lux: number | undefined;
 
   constructor(private firebase: FirebaseService, public auth: AngularFireAuth) {
     [
       {
-        docName: "lightStatus",
+        docName: SensorCollections.lightStatus,
         collum: SensorStatuses.isOn,
-        internalProp: this.lightIsOn
+        cb: (res: boolean | undefined) => this.lightIsOn = res
       },
       {
-        docName: "doorStatus",
+        docName: SensorCollections.doorStatus,
         collum: SensorStatuses.isOpen,
-        internalProp: this.doorIsOpen
+        cb: (res: boolean | undefined) => this.doorIsOpen = res
       },
       {
-        docName: "tempStatus",
+        docName: SensorCollections.tempStatus,
         collum: SensorStatuses.value,
-        internalProp: this.temp
+        cb: (res: number | undefined) => this.temp = res
       },
       {
-        docName: "luxStatus",
+        docName: SensorCollections.luxStatus,
         collum: SensorStatuses.value,
-        internalProp: this.lux
+        cb: (res: number | undefined) => this.lux = res
       }
     ].forEach((s) => {
+      console.log(s.collum);
       this.subscribeToDeviceStatus(s.docName, s.collum, (res) => {
         if (res !== undefined) {
-          s.internalProp = res;
+          s.cb(res as never);
         }
       });
     });
   }
 
-  private subscribeToDeviceStatus(collectionName: string, field: SensorStatuses, cb: (status: boolean | number | undefined) => void): void {
+  private subscribeToDeviceStatus(collectionName: SensorCollections, field: SensorStatuses, cb: (status: boolean | number | undefined) => void): void {
     const statusObservable = this.firebase.getCollection<ISensorStatus>(collectionName).valueChanges();
     statusObservable.subscribe((res) => {
       const statusList = res;
