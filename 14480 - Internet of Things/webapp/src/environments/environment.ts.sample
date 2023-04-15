@@ -1,0 +1,13 @@
+export const environment = {
+  domain: "ubi-61a39.web.app",
+  production: false,
+  vapidPublicKey: "",
+  firebase: {
+    projectId: "",
+    appId: "",
+    storageBucket: "",
+    apiKey: "",
+    authDomain: "",
+    messagingSenderId: "",
+  }
+};
