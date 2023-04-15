@@ -106,9 +106,12 @@ export default class Home {
 				}
 			}
 		
-			this.logger.info(`Running command: ${action} ${target}`);
-			await commandList[target][action]();
-			return updateDoc(command.ref, { executedAt: new Date() });
+			if (commandList[target][action]) {
+        this.logger.info(`Running command: ${action} ${target}`);
+				await commandList[target][action]();
+				return updateDoc(command.ref, { executedAt: new Date() });
+			}
+      return this.logger.warn(`Unknown command: ${action} ${target}`);
 		}
 	
 		return onSnapshot(collection(this.db, "commands"), (commandsSnapshot) => {

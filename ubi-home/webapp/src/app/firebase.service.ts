@@ -18,7 +18,7 @@ export class FirebaseService {
 
   getDocument<T>(
     documentPath: string, cb: Partial<Observer<firebase.firestore.DocumentSnapshot<unknown>>> | ((value: firebase.firestore.DocumentSnapshot<unknown>) => void) | undefined): void {
-    this._firestore.doc(documentPath).get().subscribe(cb);
+    this._firestore.doc<T>(documentPath).get().subscribe(cb);
   }
 
   async addToCollection(collectionName: string, document:unknown, docId?: string): Promise<DocumentReference<unknown>> {

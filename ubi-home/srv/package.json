@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "nodemon",
+    "lint": "eslint *.js"
   },
   "author": "lucas.rocha@ubi.pt",
   "license": "MIT",
@@ -16,6 +17,6 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
-    "eslint": "^8.36.0"
+    "eslint": "^8.38.0"
   }
 }
