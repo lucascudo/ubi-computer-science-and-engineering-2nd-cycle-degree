@@ -70,7 +70,6 @@ export default class Home {
 			updateDoorStatus(false);
 		});
 	
-	
 		setInterval(() => {
 			const temp = this.thermometer.celsius;
 			const lux = this.photoresistor.value;
