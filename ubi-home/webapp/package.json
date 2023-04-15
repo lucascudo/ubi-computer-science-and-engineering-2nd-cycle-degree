@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "deploy": "firebase deploy",
-    "lint": "eslint .\\src\\**\\*.ts",
+    "lint": "eslint ./src/**/*.ts",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "uml": "tsuml2 --glob \"./src/**/!(*.d|*.spec|*.module).ts\" --outFile=uml.svg"

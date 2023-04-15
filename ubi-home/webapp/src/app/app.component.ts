@@ -90,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     return (this.lightIsOn) ? fasLightbulb : farLightbulb;
   }
 
-  openSnackBar(message: string, action: string = "dismiss"): MatSnackBarRef<TextOnlySnackBar> {
+  openSnackBar(message: string, action = "dismiss"): MatSnackBarRef<TextOnlySnackBar> {
     return this._snackBar.open(message, action, {
       verticalPosition: "top",
       duration: 5000
