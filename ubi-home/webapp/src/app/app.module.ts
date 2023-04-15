@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, isDevMode } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatGridListModule } from "@angular/material/grid-list";
@@ -17,6 +17,7 @@ import { AngularFireAuthModule,
 } from "@angular/fire/compat/auth";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const cookieConfig:NgcCookieConsentConfig = {
   cookie: {
@@ -51,7 +52,13 @@ const cookieConfig:NgcCookieConsentConfig = {
     AngularFireAuthModule,
     FontAwesomeModule,
     NgcCookieConsentModule.forRoot(cookieConfig),
-    MatSnackBarModule
+    MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },

@@ -12,7 +12,8 @@ import ISensorStatus from "./sensor-status.interface";
 import { SensorCollections, SensorStatuses } from "./enums";
 import { Subscription } from "rxjs";
 import { NgcCookieConsentService } from "ngx-cookieconsent";
-import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
+import { NotificationServiceService } from "./notification.service.service";
 
 @Component({
   selector: "app-root",
@@ -26,12 +27,13 @@ export class AppComponent implements OnInit, OnDestroy {
   doorIsOpen: boolean | undefined = false;
   temp: number | undefined;
   lux: number | undefined;
-  private subscriptions: Subscription[] = [];
+  private _subscriptions: Subscription[] = [];
 
   constructor(
     private _firebase: FirebaseService,
     private _ccService: NgcCookieConsentService,
     private _snackBar: MatSnackBar,
+    private _notificationService: NotificationServiceService,
     public auth: AngularFireAuth){ }
 
   private subscribeToDeviceStatus(collectionName: SensorCollections, field: SensorStatuses, cb: (status: boolean | number | undefined) => void): Subscription {
@@ -68,18 +70,18 @@ export class AppComponent implements OnInit, OnDestroy {
         cb: (res: number | undefined) => this.lux = res
       }
     ].forEach((s, i) => {
-      console.log(s.colum);
-      this.subscriptions[i] = this.subscribeToDeviceStatus(s.docName, s.colum, (res) => {
+      this._subscriptions[i] = this.subscribeToDeviceStatus(s.docName, s.colum, (res) => {
         if (res !== undefined) {
           s.cb(res as never);
         }
       });
     });
+    this._notificationService.subscribeToNotifications();
   }
 
   ngOnDestroy() {
     // unsubscribe to observables to prevent memory leaks
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this._subscriptions.forEach(s => s.unsubscribe());
   }
 
   getDoorIcon(): IconDefinition {
