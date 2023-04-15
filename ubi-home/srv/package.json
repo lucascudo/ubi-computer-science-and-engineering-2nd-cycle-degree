@@ -6,16 +6,18 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "nodemon",
+    "lint": "eslint *.js"
   },
   "author": "lucas.rocha@ubi.pt",
   "license": "MIT",
   "dependencies": {
     "firebase": "^9.17.2",
     "johnny-five": "^2.1.0",
+    "web-push": "^3.5.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {
-    "eslint": "^8.36.0"
+    "eslint": "^8.38.0"
   }
 }

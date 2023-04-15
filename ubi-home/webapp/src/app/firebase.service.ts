@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import { AngularFirestore, DocumentReference, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { SensorCollections } from './enums';
+import { Observer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,20 @@ export class FirebaseService {
 
   getCollection<T>(collectionName: SensorCollections) {
     return this._firestore.collection<T>(collectionName);
+  }
+
+  getDocument<T>(
+    documentPath: string, cb: Partial<Observer<firebase.firestore.DocumentSnapshot<unknown>>> | ((value: firebase.firestore.DocumentSnapshot<unknown>) => void) | undefined): void {
+    this._firestore.doc<T>(documentPath).get().subscribe(cb);
+  }
+
+  async addToCollection(collectionName: string, document:unknown, docId?: string): Promise<DocumentReference<unknown>> {
+    const collection = this._firestore.collection(collectionName);
+    if (docId) {
+      collection.doc(docId).set(document);
+      return this._firestore.doc(`${collectionName}/${docId}`).ref;
+    }
+    return collection.add(document);
   }
 
   sendCommand(target: string, action: string): void {
@@ -44,7 +59,7 @@ export class FirebaseService {
       });
     });
   }
-  
+
   signOut(): void {
     this._auth.signOut();
   }
