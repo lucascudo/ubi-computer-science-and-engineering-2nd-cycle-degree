@@ -7,17 +7,19 @@ import {
 
 export default class Home {
 
-	constructor(env, db, five, logger) {
+	constructor(env, db, notificator, logger, five) {
 		this.env = env;
 		this.db = db;
-		this.five = five
 		this.logger = logger;
+    this.notificator = notificator;
+		this.five = five;
 	}
 
 	env;
 	db;
-	five;
+  notificator;
 	logger;
+	five;
 	board;
 	led;
 	sw;
@@ -55,6 +57,7 @@ export default class Home {
 				this.setupCommandListener();
 			});
 		}
+    return this.notificator.push("Your domestic server is online.");
 	}
 		
 	setupBoardListeners() {
@@ -64,7 +67,10 @@ export default class Home {
 			this.logger.info(`The door is ${this.doorStatus}`);
 			addDoc(collection(this.db, "doorStatus"), {timestamp, isOpen});
 		}
-		this.sw.on("open", () => updateDoorStatus(true));
+		this.sw.on("open", () => {
+      updateDoorStatus(true);
+      this.notificator.push("Your front door is open.");
+    });
 		this.sw.on("close", () => () => {
 			this.motor.stop();
 			updateDoorStatus(false);
@@ -73,6 +79,9 @@ export default class Home {
 		setInterval(() => {
 			const temp = this.thermometer.celsius;
 			const lux = this.photoresistor.value;
+      if (temp > 50) {
+        this.notificator.push("Your house is on fire!");
+      }
 			this.logger.info(`Temperature: ${temp}`);
 			addDoc(collection(this.db, "tempStatus"), {timestamp, temp});
 			this.logger.info(`Luminosity: ${lux}`);
@@ -114,7 +123,7 @@ export default class Home {
       return this.logger.warn(`Unknown command: ${action} ${target}`);
 		}
 	
-		return onSnapshot(collection(this.db, "commands"), (commandsSnapshot) => {
+		onSnapshot(collection(this.db, "commands"), (commandsSnapshot) => {
 			commandsSnapshot.docs
 				.filter((command) => !command.data().ack)
 				.sort((a, b) => a.data().requestedAt - b.data().requestedAt)
