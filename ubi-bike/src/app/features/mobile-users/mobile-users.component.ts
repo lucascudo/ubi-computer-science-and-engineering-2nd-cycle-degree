@@ -1,6 +1,5 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Timestamp } from '@angular/fire/firestore';
 import { MobileUser } from 'src/app/core/interfaces/mobile-user.interface';
 import { MobileUsersService } from './mobile-users.service';
 

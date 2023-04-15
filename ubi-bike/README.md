@@ -2,7 +2,7 @@
 
 https://ubi-bike-7866d.firebaseapp.com/
 
-<img src="https://github.com/lucascudo/ubi-bike/raw/main/src/assets/qrcode.png" alt="QRCode" width="320">
+<img src="https://raw.githubusercontent.com/lucascudo/UBI/main/ubi-bike/src/assets/qrcode.png" alt="QRCode" width="320">
 
 ## RF's
  RF01 – utilizadores não registados na plataforma, não terão acesso a qualquer tipo de informação, nem funcionalidade da plataforma;

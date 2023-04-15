@@ -9,20 +9,29 @@ import { SensorCollections } from './enums';
 })
 export class FirebaseService {
 
-  constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) { }
+  constructor(private _firestore: AngularFirestore, private _auth: AngularFireAuth) { }
 
   getCollection<T>(collectionName: SensorCollections) {
-    return this.firestore.collection<T>(collectionName);
+    return this._firestore.collection<T>(collectionName);
   }
 
-  signIn(cb: (user: firebase.auth.UserCredential) => void) {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (credential: firebase.auth.UserCredential) => {
-      this.firestore.doc(`users/${credential.user?.email}`).get().subscribe(user => {
+  sendCommand(target: string, action: string): void {
+    const requestedAt = new Date();
+    this._auth.user.subscribe(u => {
+      if (!u) return;
+      const user = u.email;
+      this._firestore.collection("commands").add({requestedAt, target, action, user});
+    });
+  }
+
+  signIn(cb: (success: boolean, user: firebase.auth.UserCredential) => void) {
+    this._auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (credential: firebase.auth.UserCredential) => {
+      this._firestore.doc(`users/${credential.user?.email}`).get().subscribe(user => {
         if (user.exists) {
-          this.firestore.doc(user.ref as DocumentReference).update({ lastLogin: new Date() });
+          this._firestore.doc(user.ref as DocumentReference).update({ lastLogin: new Date() });
         } else {
-          this.auth.signOut();
-          this.firestore.collection("unauthorizedLogins").add({
+          this._auth.signOut();
+          this._firestore.collection("unauthorizedLogins").add({
             timestamp: new Date(),
             user: {
               displayName: credential.user?.displayName,
@@ -31,21 +40,12 @@ export class FirebaseService {
             }
           });
         }
-        cb(credential);
+        cb(user.exists, credential);
       });
     });
   }
   
   signOut(): void {
-    this.auth.signOut();
-  }
-
-  sendCommand(target: string, action: string): void {
-    const requestedAt = new Date();
-    this.auth.user.subscribe(u => {
-      if (!u) return;
-      const user = u.email;
-      this.firestore.collection("commands").add({requestedAt, target, action, user});
-    });
+    this._auth.signOut();
   }
 }
