@@ -1,5 +1,5 @@
 export const environment = {
-  domain: 'ubi-61a39.firebaseapp.com'
+  domain: 'ubi-61a39.firebaseapp.com',
   production: false,
   firebase: {
     projectId: '',
