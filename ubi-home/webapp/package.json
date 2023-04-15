@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build",
     "deploy": "firebase deploy",
     "lint": "eslint ./src/**/*.ts",
     "watch": "ng build --watch --configuration development",
