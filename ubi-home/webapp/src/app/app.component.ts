@@ -68,7 +68,6 @@ export class AppComponent implements OnInit, OnDestroy {
         cb: (res: number | undefined) => this.lux = res
       }
     ].forEach((s, i) => {
-      console.log(s.colum);
       this.subscriptions[i] = this.subscribeToDeviceStatus(s.docName, s.colum, (res) => {
         if (res !== undefined) {
           s.cb(res as never);
